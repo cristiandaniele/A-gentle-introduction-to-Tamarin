@@ -13,11 +13,11 @@ In Tamarin there are two concepts:
 
   The **rules** define how to migrate from one state to another. A rule occurs in the form:
 
-      > *rule Example_rule:*
-      > [prerequisites] --[label]-> [conclusion]*
+> *rule Example_rule:
+> [prerequisites] --[label]-> [conclusion]*
 
-        NB: [prerequisites], [label] and [conclusion] are called facts. 
-        Facts are of the form F(t1,...,tn) and have fixed arity. T1,...,tn are called terms. 
+    NB: [prerequisites], [label] and [conclusion] are called facts. 
+    Facts are of the form F(t1,...,tn) and have fixed arity. T1,...,tn are called terms. 
   In the previous example, the rule is applied iff the prerequisites are satisfied, thus iff the *[prerequisites]* are present in the current state.  
   Moreover, after the rule is spent, *[label]* is appended to the *trace*, and *[conclusion]* substitutes *[prerequisites]* in the state.  
   Rules without labels only affect the system state and not the trace.
@@ -202,10 +202,47 @@ In this example the agent generates a public key and output it. Then he chooses 
   - **x = y**    for an equality between message variables 'x' and 'y'
   - **Pred(t1,..,tn)** as syntactic sugar for instantiating a predicate Pred for the terms t1 to tn
 
-### Security secrecy in Tamarin
+### Expressing secrecy in Tamarin (to finish!)
 
+To specify the property that a message x is secret, the idea is to label the key rules of the protocol with a *Secret action*. 
+We then specify a *secrecy* lemma that states whenever the Secret(x) action occurs at timepoint i, the adversary *does not know x*.
+In Tamarin:
+> *lemma secrecy:
+  "All x #i.
+    Secret(x) @i ==> not (Ex #j. K(x)@j)"*
+#### Example
+A sends a message encrypted with B’s public key to B. Both agents claim secrecy of a message, *but only agent A’s claim is true*. 
+To distinguish between the two claims we add the action facts Role('A') (respectively Role('B')) to the rule modeling role A (respectively to the rule for role B). We then specify two secrecy lemmas, one for each role.
+
+```mermaid
+sequenceDiagram
+    Note left of A : A1: A sends a message encrypted with B's public key
+    A->>B:  aenc{message}pk(B)
+    Note left of A: A states message secrecy (V)
+    Note right of B: B states message secrecy (X)
+``` 
+    NB: In this example, the lemma secret_A holds as the initiator generated the fresh value, while the responder has no guarantees, i.e., lemma secret_B yields an attack.
 
 ## Appendix
+
+### Exploring the Graphical User Interface
+
+To prove if our lemmas are correct we have to execute the following command line:
+> *tamarin-prover interactive <my_theory.spthy>*
+
+On the left of the screen, are displayed the following items:
+- **Message theory** : shows this subcategory:
+  - Signature:  functions and equations (both user-defined or importent using built-ins)
+  - Construction rules: rules that describe the function that the adversary can use
+  - Deconstruction rules: rules that describe which terms the adversary can extract from larger terms by applying functions
+- **Multiset rewriting rules**: shows the protocol's rewriting rules
+- **Raw sources** and **refined sources**: shows how Tamarin precomputes case distinctions. A case distinction gives all the possible source for a fact. In a nutshell, it precomputes all the rules that produce a fact. These rules will be used during Tamarin's backward search.
+
+#### ... and lemmas?
+To prove a lemma we have to click on **sorry** (express that the proof has not starded yet) on the left of the page. 
+A proof always starts with either a:
+- **simplification**(default strategy): translates the lemmas into an initial constraint system to be solved
+- **induction**: which generates the necessary constraints to prove the lemma using induction on the length of the trace
 
 ### Binding expression using let
 A term may occur multiple times witin the same rule. Tamarin offers support for *let ... in* as follow:

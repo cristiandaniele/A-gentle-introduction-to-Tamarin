@@ -223,6 +223,8 @@ sequenceDiagram
 ``` 
     NB: In this example, the lemma secret_A holds as the initiator generated the fresh value, while the responder has no guarantees, i.e., lemma secret_B yields an attack.
 
+    
+
 ## Appendix
 
 ### Exploring the Graphical User Interface

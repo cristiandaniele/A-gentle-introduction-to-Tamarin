@@ -202,10 +202,17 @@ In this example the agent generates a public key and output it. Then he chooses 
   - **x = y**    for an equality between message variables 'x' and 'y'
   - **Pred(t1,..,tn)** as syntactic sugar for instantiating a predicate Pred for the terms t1 to tn
 
-### Expressing secrecy in Tamarin (to finish!)
+### Expressing secrecy in Tamarin 
+We need the following **built-in** rule to model the Dolev-Yao knowledge:
+> *rule isend:
+   [ !KU(x) ]
+ --[  K(x)  ]-->
+   [ In(x)  ]*
+
+   
 
 To specify the property that a message x is secret, the idea is to label the key rules of the protocol with a *Secret action*. 
-We then specify a *secrecy* lemma that states whenever the Secret(x) action occurs at timepoint i, the adversary *does not know x*.
+We then specify a *secrecy* lemma that states whenever the Secret(x) action occurs at timepoint i, the adversary *does not know x* (we represent this using the *isend* rule).
 In Tamarin:
 > *lemma secrecy:
   "All x #i.
@@ -216,14 +223,16 @@ To distinguish between the two claims we add the action facts Role('A') (respect
 
 ```mermaid
 sequenceDiagram
-    Note left of A : A1: A sends a message encrypted with B's public key
-    A->>B:  aenc{message}pk(B)
+    Note left of A : A_1_send: A sends a message encrypted with B's public key
+    A->>B:  aenc{A,na}pk(B)
+    Note right of B: B_1_receive: B receives the message
     Note left of A: A states message secrecy (V)
     Note right of B: B states message secrecy (X)
 ``` 
     NB: In this example, the lemma secret_A holds as the initiator generated the fresh value, while the responder has no guarantees, i.e., lemma secret_B yields an attack.
 
-    
+See source code [here](./Theories/simple_secrecy.spthy).
+
 
 ## Appendix
 

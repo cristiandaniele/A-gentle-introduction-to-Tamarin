@@ -11,7 +11,7 @@
   - [Expressing secrecy in Tamarin](#expressing-secrecy-in-tamarin)
     - [Example](#example)
   - [Exploring the Graphical User Interface](#exploring-the-graphical-user-interface)
-    - [... and lemmas?](#-and-lemmas)
+  - [... and lemmas?](#-and-lemmas)
 - [Appendix](#appendix)
   - [Binding expression using let](#binding-expression-using-let)
   - [Constants](#constants)
@@ -265,7 +265,7 @@ On the left of the screen, are displayed the following items:
 - **Multiset rewriting rules**: shows the protocol's rewriting rules
 - **Raw sources** and **refined sources**: shows how Tamarin precomputes case distinctions. A case distinction gives all the possible source for a fact. In a nutshell, it precomputes all the rules that produce a fact. These rules will be used during Tamarin's backward search.
 
-#### ... and lemmas?
+### ... and lemmas?
 To prove a lemma we have to click on **sorry** (express that the proof has not starded yet) on the left of the page. 
 A proof always starts with either a:
 - **simplification**(default strategy): translates the lemmas into an initial constraint system to be solved

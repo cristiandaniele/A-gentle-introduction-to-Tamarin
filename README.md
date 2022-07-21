@@ -1,9 +1,27 @@
-# A gentle introduction to Tamarin
+#Index
+- [What's Tamarin?](#whats-tamarin)
+- [How does it work?](#how-does-it-work)
+- [How to write a protocol in Tamarin?](#how-to-write-a-protocol-in-tamarin)
+  - [Function](#function)
+  - [Equation](#equation)
+  - [How to model a PKI?](#how-to-model-a-pki)
+- [Modelling a simple protocol in Tamarin](#modelling-a-simple-protocol-in-tamarin)
+- [How to define security properties](#how-to-define-security-properties)
+  - [Syntax](#syntax)
+  - [Expressing secrecy in Tamarin](#expressing-secrecy-in-tamarin)
+    - [Example](#example)
+  - [Exploring the Graphical User Interface](#exploring-the-graphical-user-interface)
+    - [... and lemmas?](#-and-lemmas)
+- [Appendix](#appendix)
+  - [Binding expression using let](#binding-expression-using-let)
+  - [Constants](#constants)
+  - [Restrictions](#restrictions)
+## What's Tamarin?
 Tamarin is a formal method tool, i.e. a tool used to prove the *formal* correctness of a protocol.  
 The protocol and the adversary capabilities are represented by a *labelled multi-set rewriting rules*.   
 ## How does it work?
 In Tamarin there are two concepts:
-1. ***the system state***: is a multiset of *facts* (the initial system state is the empty multiset), i.e. a symbolic representation of:
+1. The ***system state***: is a multiset of *facts* (the initial system state is the empty multiset), i.e. a symbolic representation of:
 
   - the adversary's knowledge
 
@@ -11,7 +29,7 @@ In Tamarin there are two concepts:
   - information about freshly generated values
   - protocol's state   
 
-  The **rules** define how to migrate from one state to another. A rule occurs in the form:
+2. The **rules**: define how to migrate from one state to another. A rule occurs in the form:
 
 > *rule Example_rule:
 > [prerequisites] --[label]-> [conclusion]*
@@ -231,10 +249,8 @@ sequenceDiagram
 ``` 
     NB: In this example, the lemma secret_A holds as the initiator generated the fresh value, while the responder has no guarantees, i.e., lemma secret_B yields an attack.
 
-See source code [here](./Theories/simple_secrecy.spthy).
+See the source code [here](./Theories/simple_secrecy.spthy).
 
-
-## Appendix
 
 ### Exploring the Graphical User Interface
 
@@ -254,6 +270,8 @@ To prove a lemma we have to click on **sorry** (express that the proof has not s
 A proof always starts with either a:
 - **simplification**(default strategy): translates the lemmas into an initial constraint system to be solved
 - **induction**: which generates the necessary constraints to prove the lemma using induction on the length of the trace
+
+## Appendix
 
 ### Binding expression using let
 A term may occur multiple times witin the same rule. Tamarin offers support for *let ... in* as follow:

@@ -1,21 +1,22 @@
-#Index
-- [What's Tamarin?](#whats-tamarin)
-- [How does it work?](#how-does-it-work)
-- [How to write a protocol in Tamarin?](#how-to-write-a-protocol-in-tamarin)
-  - [Function](#function)
-  - [Equation](#equation)
-  - [How to model a PKI?](#how-to-model-a-pki)
-- [Modelling a simple protocol in Tamarin](#modelling-a-simple-protocol-in-tamarin)
-- [How to define security properties](#how-to-define-security-properties)
-  - [Syntax](#syntax)
-  - [Expressing secrecy in Tamarin](#expressing-secrecy-in-tamarin)
-    - [Example](#example)
-  - [Exploring the Graphical User Interface](#exploring-the-graphical-user-interface)
-  - [... and lemmas?](#-and-lemmas)
-- [Appendix](#appendix)
-  - [Binding expression using let](#binding-expression-using-let)
-  - [Constants](#constants)
-  - [Restrictions](#restrictions)
+# Index
+- [Index](#index)
+  - [What's Tamarin?](#whats-tamarin)
+  - [How does it work?](#how-does-it-work)
+  - [How to write a protocol in Tamarin?](#how-to-write-a-protocol-in-tamarin)
+    - [Function](#function)
+    - [Equation](#equation)
+    - [How to model a PKI?](#how-to-model-a-pki)
+  - [Modelling a simple protocol in Tamarin](#modelling-a-simple-protocol-in-tamarin)
+  - [How to define security properties](#how-to-define-security-properties)
+    - [Syntax](#syntax)
+    - [Expressing secrecy in Tamarin](#expressing-secrecy-in-tamarin)
+      - [Example](#example)
+    - [Exploring the Graphical User Interface](#exploring-the-graphical-user-interface)
+    - [... and lemmas?](#-and-lemmas)
+  - [Appendix](#appendix)
+    - [Binding expression using let](#binding-expression-using-let)
+    - [Constants](#constants)
+    - [Restrictions](#restrictions)
 ## What's Tamarin?
 Tamarin is a formal method tool, i.e. a tool used to prove the *formal* correctness of a protocol.  
 The protocol and the adversary capabilities are represented by a *labelled multi-set rewriting rules*.   
@@ -75,7 +76,7 @@ The equation expresses a relation between the *functions*.
 For instance, having the following function:
 > functions: enc/2, dec/2
 
-espressing respectively an encryption and a decryption funcion, it's possible to build the following equation:
+espressing respectively an encryption and a decryption function. It's thus possible building the following equation:
 > *equation: dec(enc(mess,key),key) = mess*
 
     NB: the equations must be convergent and have the Finite Variant Property.
@@ -168,16 +169,15 @@ We need three rules:
 
 In Tamarin, the security properties are defined through *lemmas*.
 There are two different kinds if properties:
-1. **Trace properties**: thanks to the label (also called actions) the system is able to reason about the protocol's behaviour.
-   given as guarded first-order logic formulas through *lemmas*. 
-   A trace property is a set of traces. We define a set of traces in Tamarin using first-order logic formulas over *action facts* and timepoints.
+1. **Trace properties**: thanks to the labels (also called actions) the system is able to reason about the protocol's behaviour.
+   A trace property is a set of traces defined using first-order logic formulas over *action facts* and timepoints.
    For example:  
 
    > lemma one_smaller_two:
     "All x y #i. B(x,y)@i ==> Smaller(x,y)"  
 
     expresses that for every x and y (terms) and #i (index in the trace) if B(x,y) occurs at index i (indicated with @i) then Smaller(x,y).
-2. **Equivalence properties**: are specified using the *diff* operator. They reason about two systems (for example two instances of a protocol), by showing that an intruder cannot distinguish these two systems.
+2. **Equivalence properties**: these properties are specified using the *diff* operator. They reason about two different systems (for example two instances of a protocol), by showing that an intruder cannot distinguish these two systems.
 In this example the agent generates a public key and output it. Then he chooses two freshes values and reveal one of it encrypting either the first or the second fresh value
     >    rule Example:
           [ Fr(~ltk)
